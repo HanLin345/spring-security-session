@@ -14,7 +14,12 @@ class SpringSecurityConfiguration : WebSecurityConfigurerAdapter() {
         auth.inMemoryAuthentication()
             .withUser("deniz")
             .password("admin")
-            .roles("ADMIN");
+            .roles("ADMIN")
+            .and()
+            .withUser("nikita")
+            .password("123")
+            .roles("USER")
+
     }
 
     override fun configure(http: HttpSecurity) {

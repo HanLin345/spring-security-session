@@ -1,13 +1,13 @@
 package com.chapter.time.springsecuritysession
 
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RestController
 
-@Controller
+@RestController
 class FirstController {
 
     @GetMapping("/first")
     fun getFirst() : String {
-        return "first";
+        return "first controller";
     }
 }

@@ -6,8 +6,18 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class FirstController {
 
-    @GetMapping("/first")
-    fun getFirst() : String {
-        return "first controller";
+    @GetMapping("/public")
+    fun publicController() : String {
+        return "public controller";
+    }
+
+    @GetMapping("/users")
+    fun userController() : String {
+        return "user controller";
+    }
+
+    @GetMapping("/admin")
+    fun adminController() : String {
+        return "admin controller";
     }
 }

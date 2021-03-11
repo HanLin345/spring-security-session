@@ -2,6 +2,7 @@ package com.chapter.time.springsecuritysession
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
+import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -14,8 +15,11 @@ class SpringSecurityConfiguration : WebSecurityConfigurerAdapter() {
 
     @Autowired
     lateinit var dataSource: DataSource
+    @Autowired
+    lateinit var myProvider: AuthenticationProvider
 
     override fun configure(auth: AuthenticationManagerBuilder) {
+        auth.authenticationProvider(myProvider)
         auth.jdbcAuthentication()
             .dataSource(dataSource)
             .withDefaultSchema()
@@ -33,7 +37,7 @@ class SpringSecurityConfiguration : WebSecurityConfigurerAdapter() {
             .mvcMatchers("/admin").hasRole("ADMIN")
             .and()
             .authorizeRequests()
-            .mvcMatchers("/users").hasAnyRole("USER","ADMIN")
+            .mvcMatchers("/users").hasAnyRole("USER", "ADMIN")
             .and().authorizeRequests()
             .mvcMatchers("/public").permitAll()
             .and().formLogin()

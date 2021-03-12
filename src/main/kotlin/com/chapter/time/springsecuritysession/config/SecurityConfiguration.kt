@@ -15,35 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 open class SecurityConfiguration : WebSecurityConfigurerAdapter() {
 
-    companion object {
-        private val logger = LoggerFactory.getLogger(this::class.java.enclosingClass)
-        const val ADMIN_USER = "admin"
-        const val ADMIN_PASSWORD = "admin"
-        const val ADMIN_ROLE = "ADMIN"
-
-        const val SUPERUSER_USER = "superuser"
-        const val SUPERUSER_PASSWORD = "superuser"
-        const val SUPERUSER_ROLE = "SUPERUSER"
-    }
-
-    @Throws(java.lang.Exception::class)
-    override fun configure(auth: AuthenticationManagerBuilder) {
-        val passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder()
-        auth.inMemoryAuthentication()
-                .withUser(ADMIN_USER).password(passwordEncoder.encode(ADMIN_PASSWORD)).roles(ADMIN_ROLE).and()
-                .withUser(SUPERUSER_USER).password(passwordEncoder.encode(SUPERUSER_PASSWORD)).roles(ADMIN_ROLE, SUPERUSER_ROLE)
-    }
-
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
-        http
-                .authorizeRequests() //
-                // Matches /home, /home/, /home.html, /home.xxx
-                .mvcMatchers("/home").permitAll()
-                .mvcMatchers("/secret*").hasRole(SUPERUSER_ROLE)
-                .mvcMatchers("/**").hasRole(ADMIN_ROLE) //
-                .anyRequest().authenticated()
-
 
     }
 }
